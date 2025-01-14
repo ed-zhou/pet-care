@@ -7,9 +7,10 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
   };
 export default function Page(){
-    const [url, setUrl] = React.useState('')
+    const [link, setLink] = React.useState('')
+    const [route, setRoute] = React.useState('')
     const onLinkChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
-        console.log('Change:', e.target.value);
+        setLink(e.target.value)
     }
     const onReset = () => {
         
@@ -17,11 +18,15 @@ export default function Page(){
     const onInviteCodeChange = () => {
     };
     const onCreateRoute = () => {
-        setUrl(url+'123456')
-        console.log(url);
+        //解析商品链接得到id
+        const idIndex = link.indexOf('&id=')
+        const priceIndex = link.indexOf('&price=')
+        const length = priceIndex - idIndex
+        const id = link.substring(idIndex + 4, priceIndex)
+        setRoute(id)
     };
     const onCopy = () => {
-        copy(url)
+        copy(route)
     };
     return (
         <div style={{display:'flex', height:'100vh', alignItems:'center'}}>
@@ -32,14 +37,14 @@ export default function Page(){
                 size='large'
                 style={{margin:'auto',  width:'600px', textAlign:'center' }}
             >
-                <Form.Item label='商品链接' name='rebate'>
-                    <Input.TextArea rows={3} maxLength={120} onChange={onLinkChange} />
+                <Form.Item label='商品链接' name='link'>
+                    <Input.TextArea rows={8} onChange={onLinkChange} />
                 </Form.Item>
                 <Form.Item label='邀请码' name='inviteCode'>
-                    <Input.TextArea maxLength={120} onChange={onInviteCodeChange} />
+                    <Input.TextArea onChange={onInviteCodeChange} />
                 </Form.Item>
                 <Form.Item label='生成路由' name='route'>
-                    <Input.TextArea disabled placeholder={url} rows={5} maxLength={120} />                
+                    <Input.TextArea disabled placeholder={route} rows={5} maxLength={120} />                
                 </Form.Item>
                 <Form.Item  {...tailLayout}>
                     <Button className='mx-2' size='large' type="primary" onClick={onCreateRoute} htmlType="button">生成路由</Button>
