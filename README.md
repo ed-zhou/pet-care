@@ -58,3 +58,15 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 #### 2.2 根据产品 id 获取产品详情图
 
 #### 2.3 按钮显示，跳转至淘宝链接
+
+mongodb 保存 collection
+id:number
+url:string
+code:string（返利链接） 7(cZ3J3EzZxGB)/:/ CZ1234
+
+需求：
+通过 URL 访问到对应产品的链接，
+product——商品 ID
+URL——xxxx/dashboard/:product
+mongodb 通过商品 ID 查询到邀请码
+model:{id, productid, code}
