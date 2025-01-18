@@ -1,28 +1,41 @@
 'use client'
 import React from 'react';
 import '@ant-design/v5-patch-for-react-19';
-import { Button, Input, Form } from 'antd'
+import { Button, Input, Form, notification } from 'antd'
 import copy from 'copy-to-clipboard'
+import type { NotificationArgsProps } from 'antd';
 const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
   };
 export default function Page(){
     const [link, setLink] = React.useState('')
     const [route, setRoute] = React.useState('')
+    let id = ''
     const onLinkChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
         setLink(e.target.value)
     }
     const onReset = () => {
         
     };
+    
+    const [api, contextHolder] = notification.useNotification();
+    type NotificationPlacement = NotificationArgsProps['placement'];
+    const openNotification = (id: string, placement: NotificationPlacement) => {
+        api.success({
+          message: '商品ID',
+          description: `${id}`,
+          placement
+        });
+      };
+      
     const onInviteCodeChange = () => {
     };
     const onCreateRoute = () => {
         //解析商品链接得到id
         const idIndex = link.indexOf('&id=')
         const priceIndex = link.indexOf('&price=')
-        const length = priceIndex - idIndex
-        const id = link.substring(idIndex + 4, priceIndex)
+        id = link.substring(idIndex + 4, priceIndex)
+        openNotification(id, 'top')
         setRoute(id)
     };
     const onCopy = () => {
@@ -30,6 +43,7 @@ export default function Page(){
     };
     return (
         <div style={{display:'flex', height:'100vh', alignItems:'center'}}>
+            {contextHolder}
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
