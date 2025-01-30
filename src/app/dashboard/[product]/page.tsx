@@ -7,7 +7,3 @@ export default function Page(){
         </div>
     )
 }
-
-const getStaticProps = async ()=>{
-    
-}

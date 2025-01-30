@@ -45,6 +45,7 @@ export default function Page(){
         const idIndex = link.indexOf('&id=')
         const priceIndex = link.indexOf('&price=')
         id = link.substring(idIndex + 4, priceIndex)
+        setRoute(id)
         openNotification(id, 'top')
     };
     const onCopy = () => {
