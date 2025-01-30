@@ -4,18 +4,27 @@ import '@ant-design/v5-patch-for-react-19';
 import { Button, Input, Form, notification } from 'antd'
 import copy from 'copy-to-clipboard'
 import type { NotificationArgsProps } from 'antd';
+import axios from 'axios'
 const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
   };
 export default function Page(){
     const [link, setLink] = React.useState('')
+    const [inviteCode, setInviteCode] = React.useState('')
     const [route, setRoute] = React.useState('')
     let id = ''
     const onLinkChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
         setLink(e.target.value)
     }
-    const onReset = () => {
-        
+    const onSave = async () => {
+        try{
+            const data = {product_id: id, invite_code: inviteCode}
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/productCodeMap`, data)
+            console.log('CREATED DOCUMENT');
+            console.log(res, 'res');
+        }catch(error){
+            console.log(error);
+        }
     };
     
     const [api, contextHolder] = notification.useNotification();
@@ -28,7 +37,8 @@ export default function Page(){
         });
       };
       
-    const onInviteCodeChange = () => {
+    const onInviteCodeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setInviteCode(e.target.value)
     };
     const onCreateRoute = () => {
         //解析商品链接得到id
@@ -36,7 +46,6 @@ export default function Page(){
         const priceIndex = link.indexOf('&price=')
         id = link.substring(idIndex + 4, priceIndex)
         openNotification(id, 'top')
-        setRoute(id)
     };
     const onCopy = () => {
         copy(route)
@@ -62,8 +71,8 @@ export default function Page(){
                 </Form.Item>
                 <Form.Item  {...tailLayout}>
                     <Button className='mx-2' size='large' type="primary" onClick={onCreateRoute} htmlType="button">生成路由</Button>
-                    <Button className='mx-2' size='large' htmlType="button" onClick={onReset} >保存</Button>
-                    <Button className='mx-2' size='large' htmlType="button" onClick={onCopy} >复制到剪切板</Button>
+                    <Button className='mx-2' size='large' htmlType="button" onClick={onSave} >保存</Button>
+                    <Button color="cyan" variant="solid" className='mx-2' size='large' htmlType="button" onClick={onCopy} >复制路由到剪切板</Button>
                 </Form.Item>
             </Form>
         </div>
