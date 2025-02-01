@@ -12,7 +12,7 @@ export async function POST(req:NextRequest){
                 console.log(data, 'data');
             }
             return NextResponse.json({
-                message: "successfully",
+                message: "success",
                 success: true
             })
         } else{
