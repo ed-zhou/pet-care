@@ -59,9 +59,10 @@ export default function Page(){
     };
     const onCreateRoute = () => {
         //解析商品链接得到id
-        const idIndex = link.indexOf('&id=')
-        const priceIndex = link.indexOf('&price=')
-        const id = link.substring(idIndex + 4, priceIndex)
+        const idIndex = link.indexOf('id=')
+        let tempStr = link.substring(idIndex, link.length)
+        const firstCharIndex = tempStr.indexOf('&')
+        const id = tempStr.substring(3, firstCharIndex)
         setproductID(id)
         openNotification(id, 'top')
         const createdRoute = `${process.env.NEXT_PUBLIC_BASE_URL}/${id}`
