@@ -60,7 +60,7 @@ export default function Page(){
     const onCreateRoute = () => {
         //解析商品链接得到id
         const idIndex = link.indexOf('id=')
-        let tempStr = link.substring(idIndex, link.length)
+        const tempStr = link.substring(idIndex, link.length)
         const firstCharIndex = tempStr.indexOf('&')
         const id = tempStr.substring(3, firstCharIndex)
         setproductID(id)
