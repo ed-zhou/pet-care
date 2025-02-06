@@ -65,7 +65,7 @@ export default function Page(){
         const id = tempStr.substring(3, firstCharIndex)
         setproductID(id)
         openNotification(id, 'top')
-        const createdRoute = `${process.env.NEXT_PUBLIC_BASE_URL}/${id}`
+        const createdRoute = `${process.env.NEXT_PUBLIC_DASHBOARD_URL}/${id}`
         setRoute(createdRoute)
     };
     const onCopy = () => {
