@@ -22,8 +22,13 @@ export default function Page(){
     }
     const onSave = async () => {
         try{
+            const httpsIndex = link.indexOf('https')
+            const tempStr = link.substring(httpsIndex, link.length)
+            const spaceIndex = tempStr.indexOf(' ')
+            // 获得淘口令链接
+            const taoUrl = tempStr.substring(0, spaceIndex)
             if(productID != "" || productID != null || productID != undefined){
-                const data = {product_id: productID, invite_code: inviteCode}
+                const data = {product_id: productID, invite_code: inviteCode, link_url: taoUrl}
                 console.log(data, 'data');
                 const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/productCodeMap`, data)
                 console.log('CREATED DOCUMENT');
@@ -57,16 +62,21 @@ export default function Page(){
     const onInviteCodeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setInviteCode(e.target.value)
     };
-    const onCreateRoute = () => {
-        //解析商品链接得到id
-        const idIndex = link.indexOf('id=')
-        const tempStr = link.substring(idIndex, link.length)
-        const firstCharIndex = tempStr.indexOf('&')
-        const id = tempStr.substring(3, firstCharIndex)
-        setproductID(id)
-        openNotification(id, 'top')
-        const createdRoute = `${process.env.NEXT_PUBLIC_DASHBOARD_URL}/${id}`
-        setRoute(createdRoute)
+    const onCreateRoute = async () => {
+        // 通过淘口令获得淘宝真实URL taoUrl
+        const response = await fetch('https://api-gw.onebound.cn/taobao/item_password/?key=t5258908516&secret=20241209&word=urlencode('+link+')&title=no')
+        const resJson = await response.json()
+        if(resJson.item){
+            // 解析商品链接得到id
+            const idIndex = resJson.item.url.indexOf('id=')
+            const tempStr = resJson.item.url.substring(idIndex, resJson.item.url.length)
+            const firstCharIndex = tempStr.indexOf('&')
+            const id = tempStr.substring(3, firstCharIndex)
+            setproductID(id)
+            openNotification(id, 'top')
+            const createdRoute = `${process.env.NEXT_PUBLIC_DASHBOARD_URL}/${id}`
+            setRoute(createdRoute)
+        }
     };
     const onCopy = () => {
         copy(route)
