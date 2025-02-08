@@ -16,6 +16,7 @@ export default function ClientComponent(
     };
     
     const onClickOpenTaobao = () =>{
+        // 相当于在淘宝搜索邀请码之后的页面
         window.location.href = linkUrl
     }
     
