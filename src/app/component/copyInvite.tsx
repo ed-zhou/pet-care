@@ -22,9 +22,9 @@ export default function ClientComponent(
     return (
         <div className='flex flex-col items-center justify-center h-screen'>
             <Image width={400} src={picUrl} />
-            <div className="w-1/4 mt-4">
+            <div className="w-1/2 mt-4">
                 <p className='text-sm text-white bg-orange-700'>{title}</p>
-                <Input className="w-1/2" readOnly placeholder={invitecode} />
+                <Input className="w-1/2" readOnly value={invitecode} />
             </div>
             <div className='mt-4'>
                 <Button color="cyan" variant="solid" size='large' onClick={onCopy} >{copyText}</Button>
