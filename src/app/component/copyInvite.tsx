@@ -15,8 +15,12 @@ export default function ClientComponent(
         }, 5000);
     };
     
-    const onClickOpenTaobao = () =>{
+    const onClickOpenTaobao = async () =>{
         // 相当于在淘宝搜索邀请码之后的页面
+        const noSpaceInviteCode = invitecode.replace(/\s/g, '')
+        const response = await fetch('https://api-gw.onebound.cn/taobao/item_search/?key=t5258908516&secret=20241209&q='+noSpaceInviteCode+'&start_price=0&end_price=0&page=1&cat=0&discount_only=&sort=&page_size=&seller_info=&nick=&ppath=&imgid=&filter=')
+        const res = response.json()
+        console.log(res, 'res');
         window.location.href = linkUrl
     }
     
