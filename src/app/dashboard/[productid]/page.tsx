@@ -13,6 +13,8 @@ export default async function InviteCode({
     // 获取图片地址
     const response = await fetch('https://api-gw.onebound.cn/taobao/item_get/?key=t5258908516&secret=20241209&num_iid='+productid+'&is_promotion=1')
     const resJson = await response.json()
-    const picUrl = "https://" + resJson.item.pic_url
-    return <ClientComponent invitecode={invitecode} linkUrl={linkUrl} picUrl={picUrl}/>
+    if(resJson.item){
+        const picUrl = "https://" + resJson.item.pic_url
+        return <ClientComponent invitecode={invitecode} linkUrl={linkUrl} picUrl={picUrl}/>
+    }
 }
